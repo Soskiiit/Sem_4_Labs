@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "d42ae110-d1eb-4a78-86d5-8b27361001d8",
+		"name": "LAB_4 Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20015596"
+	},
+	"item": [
+		{
+			"name": "Get it all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:3000/dogs"
+			},
+			"response": []
+		},
+		{
+			"name": "Post new dog",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"image_src\": \"https://storage.yandexcloud.net/yac-wh-sb-prod-s3-media-03005/uploads/breed/773/2014cfa8184d60cf8418d002cd9f6749.webp\",\n    \"title\": \"Золотистый Ретривер\",\n    \"text\": \"Очень умная и преданная собака.\",\n    \"accordionData\": [\n        {\n            \"title\": \"Уход\",\n            \"text\": \"Нуждается в регулярном груминге.\"\n        },\n        {\n            \"title\": \"Дрессировка\",\n            \"text\": \"Легко обучается, любит выполнять команды.\"\n        },\n        {\n            \"title\": \"Здоровье\",\n            \"text\": \"Может страдать от аллергии.\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "127.0.0.1:3000/dogs/"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete id=3",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "127.0.0.1:3000/dogs/3"
+			},
+			"response": []
+		}
+	]
+}
