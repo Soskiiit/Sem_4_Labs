@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <title>Калькулятор</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <button id="btn_theme" class="my-btn secondary theme-btn">Сменить тему</button>
+    
+    <details class="info-details">
+        <summary>Автор</summary>
+        <p>ФИО: Аксёнкин Никита</p>
+        <p>Группа: ИУ5-44Б</p>
+    </details>
+
     <div class="calculator-container">
-        <details class="info-details">
-            <summary>Автор</summary>
-            <p>ФИО: Аксёнкин Никита</p>
-            <p>Группа: ИУ5-44Б</p>
-        </details>
+
 
         <div id="result" class="result">
             0
@@ -21,7 +26,7 @@
             <div>
                 <button id="btn_op_clear" class="my-btn secondary">C</button>
                 <button id="btn_op_sign" class="my-btn secondary">+/-</button>
-                <button id="btn_op_percent" class="my-btn secondary">%</button>
+                <button id="btn_op_backspace" class="my-btn secondary">&lt;</button>
                 <button id="btn_op_div" class="my-btn primary">/</button>
             </div>
             <div>

@@ -96,13 +96,20 @@ body {
 }
 
 .info-details {
-    width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
     background: #f4f4f4;
     border-radius: 12px;
     padding: 10px 15px;
     box-sizing: border-box;
     cursor: pointer;
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: auto;
+    min-width: 200px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 .info-details summary {
@@ -142,4 +149,72 @@ body {
 
 .info-details p:last-child {
     margin-bottom: 5px;
+}
+
+.theme-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: auto;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 0.9rem;
+    z-index: 10;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Dark theme */
+body.dark-theme {
+    background-color: #212121;
+}
+
+body.dark-theme .calculator-container {
+    background: #424242;
+    color: #ffffff;
+}
+
+body.dark-theme .result {
+    background: #616161;
+    color: #ffffff;
+}
+
+body.dark-theme .my-btn {
+    background: #757575;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .my-btn.secondary {
+    background: #616161;
+    color: #ffffff;
+}
+
+body.dark-theme .my-btn.primary {
+    background: linear-gradient(146deg,rgba(255, 50, 0, 1) 0%, rgba(237, 102, 72, 1) 100%);
+    color: #ffffff;
+}
+
+body.dark-theme .my-btn.primary:hover {
+    background: linear-gradient(146deg, rgba(230, 40, 0, 1) 0%, rgba(222, 95, 67, 1) 100%); 
+}
+
+body.dark-theme .my-btn.execute {
+    background: linear-gradient(146deg, rgba(230, 40, 0, 1) 0%, rgba(222, 95, 67, 1) 100%); 
+}
+
+body.dark-theme .info-details {
+    background: #424242;
+    color: #ffffff;
+}
+
+body.dark-theme .info-details p {
+    color: #ffffff;
+}
+
+body.dark-theme .theme-btn {
+    background: #616161;
+    color: #ffffff;
 }
