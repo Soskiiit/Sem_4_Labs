@@ -1,0 +1,23 @@
+{
+  "name": "sem_4_labs",
+  "version": "1.0.0",
+  "description": "Небольшая собачья энциклопедия. По совместительству 3яя ЛР по ПСП",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soskiiit/Sem_4_Labs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Soskiiit/Sem_4_Labs/issues"
+  },
+  "homepage": "https://github.com/Soskiiit/Sem_4_Labs#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}
