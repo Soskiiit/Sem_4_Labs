@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "d42ae110-d1eb-4a78-86d5-8b27361001d8",
 		"name": "LAB_4 Tests",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20015596"
 	},
 	"item": [
@@ -11,7 +11,68 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "127.0.0.1:3000/dogs"
+				"url": {
+					"raw": "127.0.0.1:3000/dogs",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:3000/dogs?title=Сибирский Хаски",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Сибирский Хаски"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get id=1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:3000/dogs/1",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"1"
+					]
+				}
 			},
 			"response": []
 		},
@@ -29,7 +90,51 @@
 						}
 					}
 				},
-				"url": "127.0.0.1:3000/dogs/"
+				"url": {
+					"raw": "127.0.0.1:3000/dogs/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post new dog 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"image_src\": \"https://storage.yandexcloud.net/yac-wh-sb-prod-s3-media-03005/uploads/breed/769/1148ff2b861215347b1401fda98a97c3.webp\",\n    \"title\": \"Бигль\",\n    \"text\": \"Любопытная и веселая гончая.\",\n    \"accordionData\": [\n        {\n            \"title\": \"Уход\",\n            \"text\": \"Шерсть короткая, уход минимальный.\"\n        },\n        {\n            \"title\": \"Дрессировка\",\n            \"text\": \"Иногда упрямится, но хорошо мотивируется едой.\"\n        },\n        {\n            \"title\": \"Здоровье\",\n            \"text\": \"Склонность к ожирению.\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:3000/dogs/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						""
+					]
+				}
 			},
 			"response": []
 		},
@@ -38,7 +143,51 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "127.0.0.1:3000/dogs/3"
+				"url": {
+					"raw": "127.0.0.1:3000/dogs/3",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change image",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"image_src\": \"https://ih1.redbubble.net/image.610287721.6095/st,small,507x507-pad,600x600,f8f8f8.u4.jpg\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:3000/dogs/3",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"3"
+					]
+				}
 			},
 			"response": []
 		}
