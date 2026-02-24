@@ -10,10 +10,9 @@ export class DogPage {
         this.id = id
     }
 
-    getDataAndRender() {
-        ajax.get(urls.getDogById(this.id), (data) => {
-            this.renderData(data)
-        })
+    async getDataAndRender() {
+        const data = await ajax.get(urls.getDogById(this.id))
+        this.renderData(data)
     }
 
     renderData(item) {
@@ -38,10 +37,9 @@ export class DogPage {
         mainPage.render()
     }
 
-    clickDelete() {
-        ajax.delete(urls.deleteDog(this.id), (data) => {
-            this.clickBack()
-        })
+    async clickDelete() {
+        await ajax.delete(urls.deleteDog(this.id))
+        this.clickBack()
     }
 
     render() {

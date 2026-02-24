@@ -23,10 +23,9 @@ export class MainPage {
         )
     }
 
-    getData(title) {
-        ajax.get(urls.getDogs(title), (data) => {
-            this.renderData(data)
-        })
+    async getData(title) {
+        const data = await ajax.get(urls.getDogs(title))
+        this.renderData(data)
     }
 
     renderData(items) {
