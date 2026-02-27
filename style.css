@@ -1,17 +1,52 @@
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f2f5;
+    background-color: #ccccca;
     font-family: 'YS Text', Arial;
     margin: 0;
-    padding: 20px 0;
+    padding: 0;
+    position: relative;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+    color: #65676b;
+    z-index: 1000;
+}
+
+.footer-left {
+    flex: 1;
+    text-align: left;
+}
+
+.footer-right {
+    flex: 1;
+    text-align: right;
+}
+
+footer a {
+    color: #65676b;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 .calculator-container {
     width: 280px;
-    background: #ffffff;
+    background: #eee;
     padding: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
@@ -82,7 +117,7 @@ body {
 .my-btn.execute {
     width: 110px;
     border-radius: 25px;
-    background: inear-gradient(146deg, rgba(230, 40, 0, 1) 0%, rgba(222, 95, 67, 1) 100%); 
+    background: linear-gradient(146deg, rgba(230, 40, 0, 1) 0%, rgba(222, 95, 67, 1) 100%);
 }
 
 .buttons-grid > div {
@@ -97,7 +132,7 @@ body {
 
 .info-details {
     margin-bottom: 0px;
-    background: #f4f4f4;
+    background: #ececec;
     border-radius: 12px;
     padding: 10px 15px;
     box-sizing: border-box;
@@ -154,7 +189,7 @@ body {
 .theme-btn {
     position: absolute;
     top: 20px;
-    left: 20px;
+    right: 20px;
     width: auto;
     height: 40px;
     padding: 0 15px;
@@ -217,4 +252,14 @@ body.dark-theme .info-details p {
 body.dark-theme .theme-btn {
     background: #616161;
     color: #ffffff;
+}
+
+.yandex-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    z-index: 10;
+    cursor: pointer;
 }
