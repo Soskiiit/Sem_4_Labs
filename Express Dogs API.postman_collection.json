@@ -1,0 +1,239 @@
+{
+	"info": {
+		"_postman_id": "879c4d95-eca9-423e-a8fe-a66e9de87c80",
+		"name": "Express Dogs API",
+		"description": "Коллекция для тестирования REST API карточек Dog на Express.js",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20015596"
+	},
+	"item": [
+		{
+			"name": "1. Получить все карточки",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dogs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs"
+					]
+				},
+				"description": "Получение всех карточек Dog из базы данных"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Поиск карточек по названию",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dogs?title=Бигль",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Бигль",
+							"description": "Поиск по названию (регистронезависимый)"
+						}
+					]
+				},
+				"description": "Поиск карточек по части названия (регистронезависимый поиск)"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Получить карточку по ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dogs/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"2"
+					]
+				},
+				"description": "Получение конкретной карточки по ID"
+			},
+			"response": []
+		},
+		{
+			"name": "4. Создать новую карточку",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"image_src\": \"https://storage.yandexcloud.net/yac-wh-sb-prod-s3-media-03005/uploads/breed/773/2014cfa8184d60cf8418d002cd9f6749.webp\",\n    \"title\": \"Золотистый Ретривер\",\n    \"text\": \"Очень умная и преданная собака.\",\n    \"accordionData\": [\n        {\n            \"title\": \"Уход\",\n            \"text\": \"Нуждается в регулярном груминге.\"\n        },\n        {\n            \"title\": \"Дрессировка\",\n            \"text\": \"Легко обучается, любит выполнять команды.\"\n        },\n        {\n            \"title\": \"Здоровье\",\n            \"text\": \"Может страдать от аллергии.\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/dogs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs"
+					]
+				},
+				"description": "Создание новой карточки Dog. ID генерируется автоматически."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Обновить карточку",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"image_src\": \"https://ih1.redbubble.net/image.610287721.6095/st,small,507x507-pad,600x600,f8f8f8.u4.jpg\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/dogs/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"2"
+					]
+				},
+				"description": "Частичное обновление карточки. Можно передать только те поля, которые нужно изменить."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Удалить карточку",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dogs/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"4"
+					]
+				},
+				"description": "Удаление карточки по ID. Возвращает статус 204 No Content при успехе."
+			},
+			"response": []
+		},
+		{
+			"name": "7. Тест 404 - Несуществующая карточка",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/dogs/999",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs",
+						"999"
+					]
+				},
+				"description": "Проверка обработки ошибки 404 при запросе несуществующей карточки"
+			},
+			"response": []
+		},
+		{
+			"name": "8. Тест 400 - Невалидные данные",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Только название\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/dogs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"dogs"
+					]
+				},
+				"description": "Проверка валидации - создание карточки с неполными данными должно вернуть 400 Bad Request"
+			},
+			"response": []
+		},
+		{
+			"name": "9. Тест 404 - Несуществующий маршрут",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/nonexistent",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"nonexistent"
+					]
+				},
+				"description": "Проверка глобальной обработки 404 для несуществующих маршрутов"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "sem_4_labs",
+  "version": "1.0.0",
+  "description": "## План",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "cors": "^2.8.6",
+    "esbuild": "^0.27.3",
+    "express": "^5.2.1",
+    "fdir": "^6.5.0",
+    "nanoid": "^3.3.11",
+    "picocolors": "^1.1.1",
+    "picomatch": "^4.0.3",
+    "postcss": "^8.5.6",
+    "rollup": "^4.59.0",
+    "source-map-js": "^1.2.1",
+    "tinyglobby": "^0.2.15",
+    "vite": "^7.3.1"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soskiiit/Sem_4_Labs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Soskiiit/Sem_4_Labs/issues"
+  },
+  "homepage": "https://github.com/Soskiiit/Sem_4_Labs#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
