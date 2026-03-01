@@ -6,3 +6,4 @@ build/
 .idea/
 .vscode/
 package-lock.json
+src/data/

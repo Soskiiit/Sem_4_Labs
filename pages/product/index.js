@@ -1,5 +1,6 @@
 import {DogCardComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
+import {ThreeViewerComponent} from "../../components/three-viewer/index.js";
 import {MainPage} from "../main/index.js";
 
 export class DogPage {
@@ -19,7 +20,8 @@ export class DogPage {
                 accordionData: [
                     { title: "Уход", text: "Требует частого расчесывания шерсти." },
                     { title: "Дрессировка", text: "Сложно поддается дрессировке, требует терпения." },
-                    { title: "Здоровье", text: "Не переносит жару." }
+                    { title: "Здоровье", text: "Не переносит жару." },
+                    { title: "Рекомендуемый возраст осмотров", text: "1,2,3,5,6,7,10,11,12,14" }
                 ]
             },
             {
@@ -30,7 +32,8 @@ export class DogPage {
                  accordionData: [
                     { title: "Уход", text: "Нуждается в регулярном груминге." },
                     { title: "Дрессировка", text: "Легко обучается, любит выполнять команды." },
-                    { title: "Здоровье", text: "Может страдать от аллергии." }
+                    { title: "Здоровье", text: "Может страдать от аллергии." },
+                    { title: "Рекомендуемый возраст осмотров", text: "1,2,4,5,6,8,9,10,14,16,17,18" }
                 ]
             },
             {
@@ -41,7 +44,8 @@ export class DogPage {
                  accordionData: [
                     { title: "Уход", text: "Шерсть короткая, уход минимальный." },
                     { title: "Дрессировка", text: "Иногда упрямится, но хорошо мотивируется едой." },
-                    { title: "Здоровье", text: "Склонность к ожирению." }
+                    { title: "Здоровье", text: "Склонность к ожирению." },
+                    { title: "Рекомендуемый возраст осмотров", text: "1,3,4,5,7,8,12,13,14" }
                 ]
             },
         ]
@@ -73,6 +77,12 @@ export class DogPage {
         const data = this.getData()
         const product = new DogCardComponent(this.pageRoot)
         product.render(data)
+
+        const viewerSlot = document.getElementById('three-viewer-slot')
+        if (viewerSlot) {
+            const viewer = new ThreeViewerComponent(viewerSlot)
+            viewer.render('models/scooby-doo.glb')
+        }
 
         const backButton = new BackButtonComponent(this.pageRoot)
         backButton.render(this.clickBack.bind(this))

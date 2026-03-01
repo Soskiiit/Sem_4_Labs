@@ -12,6 +12,7 @@ export class DogCardComponent {
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="${data.src}" class="img-fluid rounded-start" alt="картинка">
+                            <div id="three-viewer-slot" style="padding: 10px;"></div>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">

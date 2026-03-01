@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Soskiiit/Sem_4_Labs#readme",
   "dependencies": {
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "three": "^0.183.2"
   }
 }
