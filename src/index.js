@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 
 const express = require('express');
@@ -12,13 +13,26 @@ const PORT = 3000;
 // Определяем путь к файлу данных
 const DATA_FILE_PATH = path.join(__dirname, 'data/dogs.json');
 
+
+if (!fs.existsSync(DATA_FILE_PATH)) {
+    const dataDir = path.dirname(DATA_FILE_PATH);
+    if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(DATA_FILE_PATH, JSON.stringify([]), 'utf8');
+}
+
 // Инициализируем сервис с путем к файлу данных
 dogsService.init(DATA_FILE_PATH);
 
 // 1. Встроенный middleware для парсинга JSON
 // а также CORS для 5 ЛР, ибо статика и бэк висят на разных портах
+// UPD: Завтра лаба, не знаю как показывать. Оставляю корс для демки 5, 6 ЛР
 app.use(express.json());
 app.use(cors())
+
+// Распространяем статику (Кусок 6 ЛР)
+app.use(express.static(path.join(__dirname, '/../public')));
 
 
 // 2. Логирующий middleware
