@@ -14,7 +14,7 @@ export class DogEditPage {
     }
 
     getDataAndRender() {
-        ajax.get(urls.getDogById(this.id), (data) => {
+        ajax.get(urls.getDogById(this.id)).then((data) => {
             this.dog = data
             this.renderData(data)
         })
@@ -197,12 +197,12 @@ export class DogEditPage {
             accordionData
         }
 
-        ajax.patch(urls.updateDog(this.id), updatedDog, (data, status) => {
-            if (status >= 200 && status < 300) {
+        ajax.patch(urls.updateDog(this.id), updatedDog).then((res) => {
+            if (res.status >= 200 && res.status < 300) {
                 this.clickBack()
-                return
+            } else {
+                alert('Не удалось сохранить изменения')
             }
-            alert('Не удалось сохранить изменения')
         })
     }
 

@@ -35,7 +35,7 @@ class Ajax {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            return await this._handleResponse(response);
+            return {"data": await this._handleResponse(response), "status": response.status};
         } catch (error) {
             console.error('Ошибка PATCH-запроса:', error);
             throw error;
