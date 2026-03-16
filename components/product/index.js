@@ -18,7 +18,8 @@ export class DogCardComponent {
                                 <h5 class="card-title text-center text-uppercase fs-2 fw-bold">${data.title}</h5>
                                 <p class="card-text">${data.text}</p>
                                 <div id="accordion-container"></div>
-                                <div id="delete-btn-container" class="d-flex justify-content-end">
+                                <div id="delete-btn-container" class="d-flex justify-content-end gap-2">
+                                    <button class="btn btn-warning mt-3" id="edit-btn">Редактировать</button>
                                     <button class="btn btn-danger mt-3" id="delete-btn">Удалить из каталога</button>
                                 </div>
                             </div>
@@ -29,7 +30,7 @@ export class DogCardComponent {
         )
     }
 
-    render(data, listener) {
+    render(data, deleteListener, editListener) {
         const html = this.getHTML(data)
         this.parent.insertAdjacentHTML('afterbegin', html)
         
@@ -37,6 +38,7 @@ export class DogCardComponent {
         const accordion = new AccordionComponent(accordionContainer, 'dog-accordion')
         accordion.render(data.accordionData)
         
-        document.getElementById('delete-btn').addEventListener('click', listener)
+        document.getElementById('delete-btn').addEventListener('click', deleteListener)
+        document.getElementById('edit-btn').addEventListener('click', editListener)
     }
 }

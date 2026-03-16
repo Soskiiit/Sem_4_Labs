@@ -1,6 +1,7 @@
 import {DogCardComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {MainPage} from "../main/index.js";
+import {DogEditPage} from "../../pages/product-edit/index.js";
 import {ajax} from "../../modules/ajax.js";
 import {urls} from "../../modules/urls.js";
 
@@ -17,7 +18,11 @@ export class DogPage {
 
     renderData(item) {
         const product = new DogCardComponent(this.pageRoot)
-        product.render({...item, src: item.image_src}, this.clickDelete.bind(this))
+        product.render(
+            {...item, src: item.image_src},
+            this.clickDelete.bind(this),
+            this.clickEdit.bind(this)
+        )
     }
 
     get pageRoot() {
@@ -40,6 +45,11 @@ export class DogPage {
     async clickDelete() {
         await ajax.delete(urls.deleteDog(this.id))
         this.clickBack()
+    }
+
+    clickEdit() {
+        const dogEditPage = new DogEditPage(this.parent, this.id)
+        dogEditPage.render()
     }
 
     render() {
