@@ -3,6 +3,8 @@ const path = require('path');
 
 const express = require('express');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const dogsRouter = require('./routes/dogs');
 const dogsService = require('./services/dogsService');
@@ -12,6 +14,10 @@ const PORT = 3000;
 
 // Определяем путь к файлу данных
 const DATA_FILE_PATH = path.join(__dirname, 'data/dogs.json');
+
+const swaggerDocument = require('../docs/dogs-api.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 if (!fs.existsSync(DATA_FILE_PATH)) {
