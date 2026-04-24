@@ -1,382 +1,203 @@
-# ЛР №5. Добаление AJAX запросов к API.
+# ЛР №5. Добавление AJAX-запросов к API
 
-**Цель** данной лабораторной работы - взаимодействие с внешним API через XMLHttpRequest. В ходе выполнения работы, вам предстоит ознакомиться с кодом реализации простого взаимодействия с внешним API, получение данных и вывод их в интерфейс пользователя, и затем выполнить задания по варианту.
+## Содержание
 
-## План лабораторной работы.
+1. [Задание](#задание)
+2. [Цель](#цель)
+3. [Вариант и референсы](#вариант-и-референсы)
+4. [Дополнительные задания с защиты](#дополнительные-задания-с-защиты)
+    - [Задание 1. Фильтрация карточек по названию через query-параметр](#задание-1-фильтрация-карточек-по-названию-через-query-параметр)
+    - [Задание 2. Удаление карточки через DELETE-запрос](#задание-2-удаление-карточки-через-delete-запрос)
+    - [Задание 3. Редактирование карточки через PATCH-запрос с динамическим аккордеоном](#задание-3-редактирование-карточки-через-patch-запрос-с-динамическим-аккордеоном)
 
-1. Инструменты для работы.
-2. Что такое XMLHttpRequest.
-3. Работа с API.
-4. API главной страницы с карточками.
-5. API страницы карточки.
-6. Дополнительные материалы
+## Задание
 
-## 1. Инструменты для работы.
+Перевести клиентскую часть приложения на взаимодействие с внешним API через `XMLHttpRequest`:
 
-Для работы будем использовать инструменты из предыдущих лабораторной работы: [VS Code](https://code.visualstudio.com/) + [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).
+1. Реализовать отдельный слой `modules` для работы с сетью:
+    - модуль с эндпоинтами API (`modules/urls.js`);
+    - модуль-обёртку над `XMLHttpRequest` с методами `GET`, `POST`, `PATCH`, `DELETE` (`modules/ajax.js`).
+2. Главную страницу перевести с отрисовки из статического объекта на получение списка карточек из API.
+3. Страницу отдельной карточки перевести на получение данных по `id` из API.
+4. Выполнить задания по своему варианту (фильтрация, создание, редактирование, удаление, пагинация — в зависимости от варианта).
+5. Разобраться с политикой CORS и поднять связку «фронт + бекенд» так, чтобы запросы доходили до сервера.
 
-## 2. Что такое XMLHttpRequest.
+## Цель
 
-[XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) (или XHR) позволяет делать HTTP-запросы к серверу из браузера без перезагрузки страницы.
-Несмотря на наличие слова "XML" в названии, с помощью XHR можно работать с любыми типами данных, а не только с XML.
-С помощью XML можно загружать/скачивать файл, отслеживать прогрусс и многое другое.
+Изучить механизм AJAX-запросов в браузере, научиться взаимодействовать с внешним API из клиентского кода без перезагрузки страницы, а также вынести работу с сетью в отдельный слой приложения, чтобы страницы оставались ответственными только за отрисовку и пользовательское взаимодействие.
 
-## 3. Работа с API.
+## Вариант и референсы
 
-Перед началом работы с API разберемся с тем, как мы это будем делать в нашем проекте.
-Первое с чего стоит начать - создадим еще один слой, где будем держать все методы работы с API.
+**Вариант:** МГТУ. Построение маршрутов.
 
-Сейчас структура проекта выглядит так
+Референсы и вспомогательные материалы, использовавшиеся при выполнении работы:
 
-```bash
-├── pages
-├── components
-├── index.html
-├── main.js
-```
+- [MDN — XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) — базовая документация по XHR.
+- [MDN — CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) — политика межсайтовых запросов, простые и сложные запросы, preflight.
+- [CORS Unblock](https://chromewebstore.google.com/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino) — расширение для обхода CORS на этапе разработки.
+- [Bootstrap 5](https://getbootstrap.com/) — для стилизации карточек, формы редактирования и аккордеона.
+- Предыдущие лабораторные работы курса — источник структуры проекта (`pages` / `components`) и готового бекенда с эндпоинтами.
 
-Добавим еще один слой `modules`
+## Дополнительные задания с защиты
 
-```bash
-├── pages
-├── components
-├── modules
-├── index.html
-├── main.js
-```
+Ниже приведены три дополнительных вопроса/задания, прозвучавших на защите, и уже реализованные в проекте фрагменты кода, которые являются ответом на них.
 
-### 3.1. Работа с урлами.
+### Задание 1. Фильтрация карточек по названию через query-параметр
 
-Для работы нам понадобятся эндпоинты API, разработанные в предыдущей ЛР. Запустим сервер с помощью `npm run start` и убедимся, что он заработал и готов слушать запросы. Сервер запустится и будет доступен по адресу `http://localhost:3000`.
+**Вопрос:** «Добавьте на главную страницу компонент поиска, чтобы список карточек фильтровался по названию через query-параметр GET-запроса, а не на клиенте».
 
-![Start server](assets/start-server.png)
-
-Объявим нужные эндпоинты для карточек в отдельном файле, чтобы можно было переиспользовать в нескольких местах сразу и в случае чего, поменять базовый URL.
-
-Базовый URL - `http://localhost:3000`, каждый запрос будет за карточками выполняться по `/stocks`.
-
--   Создаем файл `modules/stockUrls.js`
+Эндпоинт формирует query-параметр `title` на лету (`modules/urls.js`):
 
 ```js
-class StockUrls {
-    constructor() {
-        this.baseUrl = 'http://localhost:3000';
+getDogs(title) {
+    if (title) {
+        return `${this.url}/dogs?title=${title}`
     }
+    return `${this.url}/dogs`
+}
+```
 
-    getStocks() {
-        return `${this.baseUrl}/stocks`;
-    }
+Компонент поиска вешает обработчики и на клик по кнопке, и на нажатие `Enter` (`components/search/index.js`):
 
-    getStockById(id) {
-        return `${this.baseUrl}/stocks/${id}`;
-    }
+```js
+addListeners(listener) {
+    document.getElementById('search-btn').addEventListener('click', listener)
 
-    createStock() {
-        return `${this.baseUrl}/stocks`;
-    }
+    document.getElementById('search-input').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                listener()
+            }
+        })
+}
+```
 
-    removeStockById() {
-        return `${this.baseUrl}/stocks/${id}`;
-    }
+На главной странице значение из инпута пробрасывается в `getData`, который и дергает API с нужным query (`pages/main/index.js`):
 
-    updateStockById() {
-        return `${this.baseUrl}/stocks/${id}`;
-    }
+```js
+getData(title) {
+    ajax.get(urls.getDogs(title), (data) => {
+        this.renderData(data)
+    })
 }
 
-export const stockUrls = new StockUrls();
+clickSearch() {
+    const value = document.getElementById('search-input').value
+    this.getData(value)
+}
 ```
 
-Теперь, если нам нужно получить урл, то просто импортируем файл и получаем нужный нам урл.
+### Задание 2. Удаление карточки через DELETE-запрос
+
+**Вопрос:** «Сделайте так, чтобы пользователь мог удалить карточку со страницы просмотра, и после успешного удаления возвращался на список».
+
+Отдельный эндпоинт под удаление (`modules/urls.js`):
 
 ```js
-import { stockUrls } from './stockUrls.js';
-
-stockUrls.getStocks();
+deleteDog(id) {
+    return `${this.url}/dogs/${id}`
+}
 ```
 
-### 3.2. Работа с API.
-
-Мы будем работать с API через XHR. Для удобства создадим класс, в котором опишем методы для работы с API.
-
--   Создаем файл `modules/ajax.js`
+Универсальный `DELETE` в обёртке над XHR (`modules/ajax.js`):
 
 ```js
-class Ajax {
-    /**
-     * GET запрос
-     * @param {string} url - Адрес запроса
-     * @param {function} callback - Функция обратного вызова (data, status)
-     */
-    get(url, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.send();
+delete(url, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', url);
+    xhr.send();
 
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    /**
-     * POST запрос
-     * @param {string} url - Адрес запроса
-     * @param {object} data - Данные для отправки
-     * @param {function} callback - Функция обратного вызова (data, status)
-     */
-    post(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    /**
-     * PATCH запрос
-     * @param {string} url - Адрес запроса
-     * @param {object} data - Данные для обновления
-     * @param {function} callback - Функция обратного вызова (data, status)
-     */
-    patch(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('PATCH', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    /**
-     * DELETE запрос
-     * @param {string} url - Адрес запроса
-     * @param {function} callback - Функция обратного вызова (data, status)
-     */
-    delete(url, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', url);
-        xhr.send();
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    /**
-     * Обработчик ответа (приватный метод)
-     * @param {XMLHttpRequest} xhr - Объект запроса
-     * @param {function} callback - Функция обратного вызова
-     */
-    _handleResponse(xhr, callback) {
-        try {
-            const data = xhr.responseText ? JSON.parse(xhr.responseText) : null;
-            callback(data, xhr.status);
-        } catch (e) {
-            console.error('Ошибка парсинга JSON:', e);
-            callback(null, xhr.status);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            this._handleResponse(xhr, callback);
         }
+    };
+}
+```
+
+Обработчик клика по кнопке «Удалить из каталога» выполняет запрос и после ответа возвращает пользователя на главную (`pages/product/index.js`):
+
+```js
+clickDelete() {
+    ajax.delete(urls.deleteDog(this.id), (data) => {
+        this.clickBack()
+    })
+}
+```
+
+### Задание 3. Редактирование карточки через PATCH-запрос с динамическим аккордеоном
+
+**Вопрос:** «Добавьте страницу редактирования, причём блоки аккордеона можно добавлять и убирать прямо в форме, а сохранение должно уходить PATCH-запросом и не затирать остальные поля сущности».
+
+Блоки аккордеона в форме добавляются динамически: новый пункт вставляется в конец контейнера, а кнопка «Убрать» становится недоступной, когда остался единственный блок (`pages/product-edit/index.js`):
+
+```js
+clickAddAccordionItem() {
+    const accordionContainer = document.getElementById('accordion-fields-container')
+    const accordionItemsCount = document.querySelectorAll('.accordion-item-block').length
+    accordionContainer.insertAdjacentHTML('beforeend', this.getAccordionItemHTML({title: '', text: ''}, accordionItemsCount))
+    this.updateRemoveAccordionButtonState()
+}
+
+clickRemoveAccordionItem() {
+    const accordionItems = document.querySelectorAll('.accordion-item-block')
+
+    if (accordionItems.length <= 1) {
+        return
     }
-}
 
-export const ajax = new Ajax();
+    accordionItems[accordionItems.length - 1].remove()
+    this.renumberAccordionItems()
+    this.updateRemoveAccordionButtonState()
+}
 ```
 
-У нас есть готовый класс, через который мы можем выполнять запросы. Тут уже происходит вся нужная обработка и формирование JSON объекта из данных и вызов коллбека.
+При сохранении собираются все пары title/text, валидируются и объединяются с уже загруженной сущностью через spread, чтобы PATCH не терял поля, которые форма не редактирует (`pages/product-edit/index.js`):
 
 ```js
-import { ajax } from './ajax.js';
+clickSave() {
+    const title = document.getElementById('edit-title').value.trim()
+    const image_src = document.getElementById('edit-image-src').value.trim()
+    const text = document.getElementById('edit-text').value.trim()
+    const accordionData = this.getAccordionDataFromForm()
 
-// GET пример
-api.get('https://api.example.com/data', (data, status) => {
-    console.log(status, data);
-});
+    const hasInvalidAccordionItem = accordionData.some((item) => !item.title || !item.text)
 
-// POST пример
-api.post('https://api.example.com/create', { name: 'John' }, (data, status) => {
-    console.log(status, data);
-});
-
-// PATCH пример
-api.patch(
-    'https://api.example.com/update/1',
-    { name: 'Updated' },
-    (data, status) => {
-        console.log(status, data);
+    if (!title || !image_src || !text || hasInvalidAccordionItem) {
+        alert('Не все поля заполнены')
+        return
     }
-);
 
-// DELETE пример
-api.delete('https://api.example.com/delete/1', (data, status) => {
-    console.log(status, data);
-});
-```
+    const updatedDog = {
+        ...this.dog,
+        title,
+        image_src,
+        text,
+        accordionData
+    }
 
-## 4. API главной страницы с карточками.
-
-Переведем нашу главную страницу на работу с API.
-Сделаем так, чтобы на главной странице выводились карточки, полученные по API.
-
-Первое с чего нужно начать - модифицировать получение данных.
-Сейчас мы рисуем карточки на основе объекта в коде.
-Нам нужно поменять на получение данных из API и отрисовку карточек.
-
--   Изменяем функцию получения данных
-
-```js
-import {ajax} from "../../modules/ajax.js";
-import {stockUrls} from "../../modules/stockUrls.js";
-
-
-getData() {
-    ajax.get(stockUrls.getStocks(), (data) => {
-        this.renderData(data);
+    ajax.patch(urls.updateDog(this.id), updatedDog, (data, status) => {
+        if (status >= 200 && status < 300) {
+            this.clickBack()
+            return
+        }
+        alert('Не удалось сохранить изменения')
     })
 }
 ```
 
--   Добавляем функцию отрисовки карточек по данным
+Сам `PATCH` в обёртке над XHR выставляет `Content-Type: application/json` и отправляет сериализованное тело (`modules/ajax.js`):
 
 ```js
-renderData(items) {
-    items.forEach((item) => {
-        const productCard = new ProductCardComponent(this.pageRoot)
-        productCard.render(item, this.clickCard.bind(this))
-    })
+patch(url, data, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PATCH', url);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
+
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+            this._handleResponse(xhr, callback);
+        }
+    };
 }
 ```
-
--   Модифицируем функцию отрисовки страницы
-
-```js
-render() {
-    this.parent.innerHTML = ''
-    const html = this.getHTML()
-    this.parent.insertAdjacentHTML('beforeend', html)
-
-    this.getData()
-}
-```
-
----
-
-Если вы все еще видите пустую страницу, то проверьте консоль разработчика - возможно, там будет ошибка:
-`Access to XMLHttpRequest at 'http://localhost:3000/stocks' from origin 'http://127.0.0.1:5501' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.`
-
-![Cors error](assets/cors-error.png)
-
-При попытке выполнить XHR-запрос браузер может заблокировать запрос не с того же домена, на котором находится запрашиваемый ресурс. Такая политика ограничений называется [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS).
-
-Есть несколько способов обойти это:
-
-1. Сделать так, чтобы главная страница index.html располагалась на том же домене и порту, что и серверная часть приложения, к которой будут выполняться запросы.
-2. Настроить CORS заголовки на сервере, чтобы они принимали запросы с конкретных или произвольных доменов.
-3. Использовать расширение [CORS Unblock](https://chromewebstore.google.com/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino), которое позволить обойти ограничения. Принцип работы расширения таков: оно перехватывает запрос и подменяет заголовки, убеждая браузер, что ответ пришел с разрешенного источника. CORS Unblock полезен для разработки, но не стоит использовать его в продакшене, так как он обходит встроенную защиту браузера. Лучший вариант — правильно настроить CORS на сервере.
-
-Воспользуемся CORS Unblock, как самым быстрым и простым решением. После установки и включения расширения ошибка должна исчезнуть. Если этого не произошло, убедитесь, что все сделали правильно.
-
-**Примечание**:
-Расширение по умолчанию может не работать для сложных POST запросов. CORS запросы делятся на простые и сложные: для простых не требуется пердварительный запрос OPTIONS - запрос сразу улетает на сервер.
-К простым запросам относятся: методы GET/POST/HEAD c Content-Type text/plain, application/x-www-form-urlencoded, multipart/form-data. 
-
-POST-запрос с Content-Type: application/json относится к сложным запросам, для него отправляется предварительный **preflight** OPTIONS-запрос, который расширение по умолчанию не перехватывает.
-
-Чтобы это обойти, нужно включить следующие пункты  в настройках расширения и нажать Start (Restart):
-- Overwrite 4xx status codes with 200
-- Access-Control-Request-Headers
-
-В случае, если какие-то еще запросы не будут работать, можно поэкспериментировать с настройками расширения и попробовать включить остальные пункты (либо вообще все) - это может помочь.
-
-![Cors unblock settings](assets/cors-unblock-settings.png)
-
--------
-
-Теперь, на главной странице у нас отображаются все карточки, получаемые с бэкенда по API. Результаты запросов можно отследить в **DevTools** во вкладке **Network**.
-
-![Get stocks](assets/get-stocks.png)
-
-![Get stocks network](assets/get-stocks-network.png)
-
-Перейдем к модификации второй страницы.
-
-## 5. API страницы карточки.
-
-Модифицируем страницу так, чтобы отображать данные карточки, на которую нажали.
-
--   Изменяем функцию получения данных
-
-```js
- getData() {
-    ajax.get(stockUrls.getStockById(this.id), (data) => {
-        this.renderData(data);
-    })
-}
-```
-
--   Добавляем функцию отрисовки карточек по данным
-
-```js
-renderData(item) {
-    const product = new ProductCardComponent(this.pageRoot)
-    product.render(item)
-}
-```
-
--   Модифицируем функцию отрисовки страницы
-
-```js
-render() {
-    this.parent.innerHTML = ''
-    const html = this.getHTML()
-    this.parent.insertAdjacentHTML('beforeend', html)
-
-    const backButton = new BackButtonComponent(this.pageRoot)
-    backButton.render(this.clickBack.bind(this))
-
-    this.getData()
-}
-```
-
-Теперь при переходе на страницу какой-то карточки ее данные будут приходить через API по сети. Убедимся в этом, посмотрев вкладку **Network**:
-
-![Get stock by id](assets/get-stock-by-id.png)
-
-## Дополнительные материалы
-
-#### 1 вариант.
-
-1. Главная страница - получаем и отображаем список карточек
-   Необходимо сделать компонент для фильтрации карточек по названию (title) с помощью передачи query-параметра в GET-запрос.
-
-2. Вторая страница - отображение конкретной карточки по ID. Добавить кнопку удаления карточки и выполнять удаление при клике на нее через DELETE-запрос к API.
-
-#### 2 вариант.
-
-1. Главная страница - получаем и отображаем список карточек.
-
-2. Вторая страница - добавить страницу с формой создания карточки и выполнять ее создание через POST-запрос.
-
-#### 3 вариант.
-
-1. Главная страница - получаем и отображаем список карточек.
-
-2. Вторая страница - отображение конкретной карточки по ID. Добавить поля для обновления карточки и обновлять их с помощью PATCH-запроса.
-
-#### 4 вариант.
-
-1. Главная страница - получаем и отображаем список карточек.
-   Необходимо сделать компонент для фильтрации карточек по названию (title) с помощью передачи query-параметра в GET-запрос.
-
-2. Добавить поле для ввода числа, которое будет ограничивать максимальное количество карточек, отображаемых на странице - простенькая пагинация на клиенсткой части. При изменении этого числа, количество карточек должно меняться.
